@@ -1,10 +1,10 @@
 -- Drops the employee_info_db if it already exists --
-DROP DATABASE IF EXISTS employee_info_db;
+DROP DATABASE IF EXISTS employee_infoDB;
 
 -- Create the database employee_info_db and specified it for use --
-CREATE DATABASE employee_info_db;
+CREATE DATABASE employee_infoDB;
 
-USE employee_info_db;
+USE employee_infoDB;
 
 -- Create the table department --
 CREATE TABLE department (
