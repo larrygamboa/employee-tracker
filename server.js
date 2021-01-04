@@ -25,9 +25,10 @@ connection.connect(function (err) {
   startTracker();
 });
 
-// Inquirer for CLI control //
+// ========== Inquirer for CLI control ========== //
 // startTracker function to prompt the user on what to do
 function startTracker() {
+  // Pass the question(s) and possible choices
   inquirer
     .prompt({
       name: "action",
@@ -44,6 +45,7 @@ function startTracker() {
         "Quit"
       ]
     })
+    // Use the user's choice to run next function and break out of the switch statement
     .then(function(choice) {
       console.log("You entered: " + choice.action);
       switch (choice.action) {
@@ -57,7 +59,7 @@ function startTracker() {
           addEmployee();
           break;
         case "View departments":
-          viewDepartment();
+          viewDepartments();
           break;
         case "View roles":
           viewRoles();
@@ -66,10 +68,45 @@ function startTracker() {
           viewEmployees();
           break;
         case "Update employee role":
-          updateEmployee();
+          updateEmployees();
           break;
         default:
           quit();
       }
     });
+}
+
+// Function to add department
+function addDepartment() {
+
+}
+
+// Function to add role
+function addRole() {
+  
+}
+
+// Function to add employee
+function addEmployee() {
+  
+}
+
+// Function to view departments
+function viewDepartments() {
+
+}
+
+// Function to view roles
+function viewRoles() {
+  
+}
+
+// Function to view employees
+function viewEmployees() {
+  
+} 
+
+function quit() {
+  connection.end();
+  process.exit();
 }
