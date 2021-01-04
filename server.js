@@ -80,8 +80,8 @@ function startTracker() {
 function addDepartment() {
   inquirer.prompt({
     type: "input",
-    message: "Enter the department name:",
-    name: "deptName"
+    name: "deptName",
+    message: "Enter the department name:"
   }).then (function (answer) {
     connection.query("INSERT INTO department (name) VALUES (?)", [answer.deptName], function (err, res) {
       if (err) throw err;
@@ -96,18 +96,18 @@ function addRole() {
   inquirer.prompt([
     {
       type: "input",
-      message: "Enter the name of the role:",
-      name: "roleName"
+      name: "roleName",
+      message: "Enter the name of the role:"
     },
     {
       type: "input",
-      message: "Enter the salary of the of role:",
-      name: "roleSalary"
+      name: "roleSalary",
+      message: "Enter the salary of the of role:"
     },
     {
       type: "input",
-      message: "Enter the department ID:",
-      name: "deptID"
+      name: "deptID",
+      message: "Enter the department ID:"
     },
   ]).then (function (answer) {
     connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [answer.roleName, answer.roleSalary, answer.deptID], function (err, res) {
@@ -120,7 +120,34 @@ function addRole() {
 
 // Function to add employee
 function addEmployee() {
-  
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "firstName",
+      message: "Enter the employee's first name:"
+    },
+    {
+      type: "input",
+      name: "lastName",
+      message: "Enter the employee's last name:"
+    },
+    {
+      type: "input",
+      name: "roleID",
+      message: "Enter the employee's role ID number:"
+    },
+    {
+      type: "input",
+      name: "managerID",
+      message: "Enter the manager's ID number:"
+    }
+  ]).then (function (answer) {
+    connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.firstName, answer.lastName, answer.roleID, answer.managerID], function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
+    });
+  });
 }
 
 // Function to view departments
