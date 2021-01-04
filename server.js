@@ -78,7 +78,17 @@ function startTracker() {
 
 // Function to add department
 function addDepartment() {
-
+  inquirer.prompt({
+    type: "input",
+    message: "Enter the department name.",
+    name: "depName"
+  }).then (function (answer) {
+    connection.query("INSERT INTO department (name) VALUES (?)", [answer.depName], function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
+    });
+  });
 }
 
 // Function to add role
