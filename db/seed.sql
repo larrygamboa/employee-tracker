@@ -18,14 +18,6 @@ VALUES
     ('Legal Team Lead', 250000, 4),
     ('Lawyer', 190000, 4);
     
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES 
-    ("Obiwan", "Kenobi", 1, NULL),
-    ("Darth", "Vader", 3, NULL),
-    ("Han", "Solo", 2, NULL),
-    ("Luke", "Skywalker", 5, NULL),
-    ("Boba", "Fett", 4, NULL);
-    
 INSERT INTO employee
     (first_name, last_name, role_id, manager_id)
 VALUES
