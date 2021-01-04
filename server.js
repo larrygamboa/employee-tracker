@@ -38,10 +38,10 @@ function startTracker() {
         "Add department",
         "Add role",
         "Add employee",
+        "Update employee role",
         "View departments",
         "View roles",
         "View employees",
-        "Update employee role",
         "Quit"
       ]
     })
@@ -58,6 +58,9 @@ function startTracker() {
         case "Add employee":
           addEmployee();
           break;
+        case "Update employee info":
+          updateEmployees();
+          break;  
         case "View departments":
           viewDepartments();
           break;
@@ -66,9 +69,6 @@ function startTracker() {
           break;
         case "View employees":
           viewEmployees();
-          break;
-        case "Update employee role":
-          updateEmployees();
           break;
         default:
           quit();
@@ -143,6 +143,28 @@ function addEmployee() {
     }
   ]).then (function (answer) {
     connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.firstName, answer.lastName, answer.roleID, answer.managerID], function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
+    });
+  });
+}
+
+// Function to update employee
+function updateEmployees() {
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "updateEmp",
+      message: "Which employee would you like to update?"
+    },
+    {
+      type: "input",
+      name: "updateRole",
+      message: "What is the employee's updated role?"
+    }
+  ]).then (function (answer) {
+    connection.query("UPDATE employee SET role_id=? WHERE first_name= ?", [answer.updateEmp, answer.updateRole], function(err, res) {
       if (err) throw err;
       console.table(res);
       startTracker();
