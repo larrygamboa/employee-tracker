@@ -80,10 +80,10 @@ function startTracker() {
 function addDepartment() {
   inquirer.prompt({
     type: "input",
-    message: "Enter the department name.",
-    name: "depName"
+    message: "Enter the department name:",
+    name: "deptName"
   }).then (function (answer) {
-    connection.query("INSERT INTO department (name) VALUES (?)", [answer.depName], function (err, res) {
+    connection.query("INSERT INTO department (name) VALUES (?)", [answer.deptName], function (err, res) {
       if (err) throw err;
       console.table(res);
       startTracker();
@@ -93,7 +93,29 @@ function addDepartment() {
 
 // Function to add role
 function addRole() {
-  
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "Enter the name of the role:",
+      name: "roleName"
+    },
+    {
+      type: "input",
+      message: "Enter the salary of the of role:",
+      name: "roleSalary"
+    },
+    {
+      type: "input",
+      message: "Enter the department ID:",
+      name: "deptID"
+    },
+  ]).then (function (answer) {
+    connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [answer.roleName, answer.roleSalary, answer.deptID], function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
+    });
+  });
 }
 
 // Function to add employee
