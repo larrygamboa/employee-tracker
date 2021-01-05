@@ -21,6 +21,7 @@ const connection = mysql.createConnection({
 connection.connect(function (err) {
   // If there is an error, throw it
   if (err) throw err;
+  console.log("connected as id " + connection.threadId);
   // Run a function called startTracker
   startTracker();
 });
@@ -80,13 +81,20 @@ function startTracker() {
 function addDepartment() {
   inquirer.prompt({
     type: "input",
-    name: "deptName",
-    message: "Enter the department name:"
+    name: "department",
+    message: "Enter the new department name:"
   }).then (function (answer) {
-    connection.query("INSERT INTO department (name) VALUES (?)", [answer.deptName], function (err, res) {
-      if (err) throw err;
-      console.table(res);
-      startTracker();
+    // var query = "INSERT INTO department (name) VALUES (?)";
+    var query = "INSERT INTO department SET ?";
+    connection.query(query,
+      { 
+        name: answer.department
+      }, 
+      function (err, res) {
+        if (err) throw err;
+        console.log("You have succesfully added a new department.")
+        console.table(res);
+        startTracker();
     });
   });
 }
@@ -96,12 +104,12 @@ function addRole() {
   inquirer.prompt([
     {
       type: "input",
-      name: "roleName",
+      name: "title",
       message: "Enter the name of the role:"
     },
     {
       type: "input",
-      name: "roleSalary",
+      name: "salary",
       message: "Enter the salary of the of role:"
     },
     {
@@ -110,10 +118,19 @@ function addRole() {
       message: "Enter the department ID:"
     },
   ]).then (function (answer) {
-    connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [answer.roleName, answer.roleSalary, answer.deptID], function (err, res) {
-      if (err) throw err;
-      console.table(res);
-      startTracker();
+    // var query = "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";
+    var query = "INSERT INTO role SET ?";
+    connection.query(query,
+      { 
+        title: answer.title,
+        salary: answer.salary,
+        department_id: answer.deptID
+      },
+      function (err, res) {
+        if (err) throw err;
+        console.log("You have succesfully added a new role.")
+        console.table(res);
+        startTracker();
     });
   });
 }
@@ -142,10 +159,20 @@ function addEmployee() {
       message: "Enter the manager's ID number:"
     }
   ]).then (function (answer) {
-    connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.firstName, answer.lastName, answer.roleID, answer.managerID], function(err, res) {
-      if (err) throw err;
-      console.table(res);
-      startTracker();
+    // var query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
+    var query = "INSERT INTO employee SET ?";
+    connection.query(query,
+      { 
+        first_name: answer.firstName,
+        last_name: answer.lastName,
+        role_id: answer.roleID,
+        manager_id: answer.managerID
+      }, 
+      function(err, res) {
+        if (err) throw err;
+        console.log("You have succesfully added a new employee.")
+        console.table(res);
+        startTracker();
     });
   });
 }
@@ -173,31 +200,37 @@ function updateEmployees() {
 }
 
 // Function to view departments
-function viewDepartments () {
-  // Select from the database
+function viewDepartments() {
   var query = "SELECT * FROM department";
-  connection.query(query, function(err, res) {
-    if (err) throw err;
-    console.table(res);
-    startTracker();
+  connection.query(query,
+    function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
   });
 }
 
 // Function to view roles
-function viewDepartments () {
-  // Select from the database
+function viewRoles() {
   var query = "SELECT * FROM role";
-  connection.query(query, function(err, res) {
-    if (err) throw err;
-    console.table(res);
-    startTracker();
+  connection.query(query,
+    function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
   });
 }
 
 // Function to view employees
-function viewEmployees() {
-  
-} 
+function viewEmployees () {
+  var query = "SELECT * FROM employee";
+  connection.query(query,
+    function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
+  });
+}
 
 function quit() {
   connection.end();
