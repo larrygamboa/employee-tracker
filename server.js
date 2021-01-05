@@ -174,7 +174,7 @@ function updateEmployees() {
 
 // Function to view departments
 function viewDepartments () {
-  // Select from the db
+  // Select from the database
   var query = "SELECT * FROM department";
   connection.query(query, function(err, res) {
     if (err) throw err;
@@ -184,8 +184,14 @@ function viewDepartments () {
 }
 
 // Function to view roles
-function viewRoles() {
-  
+function viewDepartments () {
+  // Select from the database
+  var query = "SELECT * FROM role";
+  connection.query(query, function(err, res) {
+    if (err) throw err;
+    console.table(res);
+    startTracker();
+  });
 }
 
 // Function to view employees
