@@ -21,7 +21,7 @@ const connection = mysql.createConnection({
 connection.connect(function (err) {
   // If there is an error, throw it
   if (err) throw err;
-  console.log("connected as id " + connection.threadId);
+  console.log("Connected as id " + connection.threadId);
   // Run a function called startTracker
   startTracker();
 });
@@ -36,13 +36,13 @@ function startTracker() {
       type: "list",
       message: "What would you like to do?",
       choices: [
+        "View departments",
+        "View roles",
+        "View employees",
         "Add department",
         "Add role",
         "Add employee",
         "Update employee role",
-        "View departments",
-        "View roles",
-        "View employees",
         "Quit"
       ]
     })
@@ -50,6 +50,15 @@ function startTracker() {
     .then(function(choice) {
       console.log("You entered: " + choice.action);
       switch (choice.action) {
+        case "View departments":
+          viewDepartments();
+          break;
+        case "View roles":
+          viewRoles();
+          break;
+        case "View employees":
+          viewEmployees();
+          break;
         case "Add department":
           addDepartment();
           break;
@@ -60,21 +69,45 @@ function startTracker() {
           addEmployee();
           break;
         case "Update employee info":
-          updateEmployees();
+          updateEmployee();
           break;  
-        case "View departments":
-          viewDepartments();
-          break;
-        case "View roles":
-          viewRoles();
-          break;
-        case "View employees":
-          viewEmployees();
-          break;
         default:
           quit();
       }
     });
+}
+
+// Function to view departments
+function viewDepartments() {
+  var query = "SELECT * FROM department";
+  connection.query(query,
+    function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
+  });
+}
+
+// Function to view roles
+function viewRoles() {
+  var query = "SELECT * FROM role";
+  connection.query(query,
+    function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
+  });
+}
+
+// Function to view employees
+function viewEmployees() {
+  var query = "SELECT * FROM employee";
+  connection.query(query,
+    function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startTracker();
+  });
 }
 
 // Function to add department
@@ -178,7 +211,7 @@ function addEmployee() {
 }
 
 // Function to update employee
-function updateEmployees() {
+function updateEmployee() {
   inquirer.prompt([
     {
       type: "input",
@@ -191,7 +224,8 @@ function updateEmployees() {
       message: "What is the employee's updated role?"
     }
   ]).then (function (answer) {
-    connection.query("UPDATE employee SET role_id=? WHERE first_name= ?", [answer.updateEmp, answer.updateRole], function(err, res) {
+    var query = "UPDATE employee SET role_id=? WHERE first_name= ?";
+    connection.query(query, [answer.updateEmp, answer.updateRole], function(err, res) {
       if (err) throw err;
       console.table(res);
       startTracker();
@@ -199,39 +233,7 @@ function updateEmployees() {
   });
 }
 
-// Function to view departments
-function viewDepartments() {
-  var query = "SELECT * FROM department";
-  connection.query(query,
-    function(err, res) {
-      if (err) throw err;
-      console.table(res);
-      startTracker();
-  });
-}
-
-// Function to view roles
-function viewRoles() {
-  var query = "SELECT * FROM role";
-  connection.query(query,
-    function(err, res) {
-      if (err) throw err;
-      console.table(res);
-      startTracker();
-  });
-}
-
-// Function to view employees
-function viewEmployees () {
-  var query = "SELECT * FROM employee";
-  connection.query(query,
-    function(err, res) {
-      if (err) throw err;
-      console.table(res);
-      startTracker();
-  });
-}
-
+// Quit application
 function quit() {
   connection.end();
   process.exit();
