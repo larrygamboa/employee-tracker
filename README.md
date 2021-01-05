@@ -33,4 +33,4 @@ A database schema is required and should contain three tables: department, role,
 
 ## Screenshot
 
-![alt text]()
+![alt text](https://github.com/larrygamboa/employee-tracker/blob/main/command-line-screenshot.png)
