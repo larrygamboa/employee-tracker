@@ -117,7 +117,6 @@ function addDepartment() {
     name: "department",
     message: "Enter the new department name:"
   }).then (function (answer) {
-    // var query = "INSERT INTO department (name) VALUES (?)";
     var query = "INSERT INTO department SET ?";
     connection.query(query,
       { 
@@ -151,7 +150,6 @@ function addRole() {
       message: "Enter the department ID:"
     },
   ]).then (function (answer) {
-    // var query = "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";
     var query = "INSERT INTO role SET ?";
     connection.query(query,
       { 
@@ -192,7 +190,6 @@ function addEmployee() {
       message: "Enter the manager's ID number:"
     }
   ]).then (function (answer) {
-    // var query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
     var query = "INSERT INTO employee SET ?";
     connection.query(query,
       answer, 
@@ -211,19 +208,24 @@ function updateEmployee() {
     {
       type: "input",
       name: "id",
-      message: "Which employee would you like to update? Enter id"
+      message: "Which employee would you like to update? (Enter Employee ID)"
     },
     {
       type: "input",
       name: "role_id",
-      message: "What is the employee's updated role? Ender Role id"
+      message: "What is the employee's updated role? (Ender Role ID)"
     }
   ]).then (function (answer) {
     var query = "UPDATE employee SET role_id = ? WHERE id = ?";
-    connection.query(query, [answer.role_id, answer.id], function(err, res) {
-      if (err) throw err;
-      console.table(res);
-      startTracker();
+    connection.query(query,
+      [
+        answer.role_id,
+        answer.id
+      ],
+      function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        startTracker();
     });
   });
 }
