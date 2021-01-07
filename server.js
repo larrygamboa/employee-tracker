@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
   // Your user name
   user: "root",
   // Your password
-  password: "l@rG020979!",
+  password: "rootroot",
   // Your database name
   database: "employee_infoDB"
 });
@@ -125,7 +125,7 @@ function addDepartment() {
       }, 
       function (err, res) {
         if (err) throw err;
-        console.log("You have succesfully added a new department.")
+        console.log("You have successfully added a new department.")
         console.table(res);
         startTracker();
     });
@@ -161,7 +161,7 @@ function addRole() {
       },
       function (err, res) {
         if (err) throw err;
-        console.log("You have succesfully added a new role.")
+        console.log("You have successfully added a new role.")
         console.table(res);
         startTracker();
     });
@@ -203,7 +203,7 @@ function addEmployee() {
       }, 
       function(err, res) {
         if (err) throw err;
-        console.log("You have succesfully added a new employee.")
+        console.log("You have successfully added a new employee.")
         console.table(res);
         startTracker();
     });
