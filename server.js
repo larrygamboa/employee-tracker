@@ -68,7 +68,7 @@ function startTracker() {
         case "Add employee":
           addEmployee();
           break;
-        case "Update employee info":
+        case "Update employee role":
           updateEmployee();
           break;  
         default:
@@ -173,34 +173,29 @@ function addEmployee() {
   inquirer.prompt([
     {
       type: "input",
-      name: "firstName",
+      name: "first_name",
       message: "Enter the employee's first name:"
     },
     {
       type: "input",
-      name: "lastName",
+      name: "last_name",
       message: "Enter the employee's last name:"
     },
     {
       type: "input",
-      name: "roleID",
+      name: "role_id",
       message: "Enter the employee's role ID number:"
     },
     {
       type: "input",
-      name: "managerID",
+      name: "manager_id",
       message: "Enter the manager's ID number:"
     }
   ]).then (function (answer) {
     // var query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
     var query = "INSERT INTO employee SET ?";
     connection.query(query,
-      { 
-        first_name: answer.firstName,
-        last_name: answer.lastName,
-        role_id: answer.roleID,
-        manager_id: answer.managerID
-      }, 
+      answer, 
       function(err, res) {
         if (err) throw err;
         console.log("You have successfully added a new employee.")
@@ -215,17 +210,17 @@ function updateEmployee() {
   inquirer.prompt([
     {
       type: "input",
-      name: "updateEmp",
-      message: "Which employee would you like to update?"
+      name: "id",
+      message: "Which employee would you like to update? Enter id"
     },
     {
       type: "input",
-      name: "updateRole",
-      message: "What is the employee's updated role?"
+      name: "role_id",
+      message: "What is the employee's updated role? Ender Role id"
     }
   ]).then (function (answer) {
-    var query = "UPDATE employee SET role_id=? WHERE first_name= ?";
-    connection.query(query, [answer.updateEmp, answer.updateRole], function(err, res) {
+    var query = "UPDATE employee SET role_id = ? WHERE id = ?";
+    connection.query(query, [answer.role_id, answer.id], function(err, res) {
       if (err) throw err;
       console.table(res);
       startTracker();
